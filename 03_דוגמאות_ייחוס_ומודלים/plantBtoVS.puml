@@ -1,0 +1,25 @@
+@startuml
+left to right direction
+
+' --- Actors ---
+actor "Rider / User" as rider
+actor "Payment Gateway" as pay <<System>>
+
+' --- System Boundary & Use Cases ---
+rectangle "Smart Scooter Rental System" {
+    usecase "Locate Scooter" as UC_Locate
+    usecase "Start Ride" as UC_StartRide
+    usecase "Process Ride Payment" as UC_ProcessPayment
+    usecase "Report Fault" as UC_ReportFault
+}
+
+' --- Actor Associations ---
+rider -- UC_Locate
+rider -- UC_StartRide
+UC_ProcessPayment -- pay
+
+' --- Dependencies & Extensions ---
+UC_StartRide ..> UC_ProcessPayment : <<include>>
+UC_ReportFault ..> UC_StartRide : <<extend>>
+
+@enduml

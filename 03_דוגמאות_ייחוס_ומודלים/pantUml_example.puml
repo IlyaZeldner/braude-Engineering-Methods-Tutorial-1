@@ -1,0 +1,36 @@
+@startuml
+title System Use Case Diagram
+left to right direction
+
+' Primary Actors
+actor "Rider / User" as rider
+actor "Field Technician" as tech
+
+' Secondary Actors / External Systems
+actor "Payment Gateway" as pay <<System>>
+actor "IoT GPS & Lock Unit" as iot <<System>>
+
+' System Boundary
+rectangle "Smart Scooter Rental System" {
+    usecase "Locate Scooter" as UC_Locate
+    usecase "Start Ride" as UC_StartRide
+    usecase "Process Ride Payment" as UC_ProcessPayment
+    usecase "Report Battery / Lock Fault" as UC_ReportFault
+    usecase "Perform Maintenance Lock" as UC_LockVehicle
+}
+
+' Associations
+rider -- UC_Locate
+rider -- UC_StartRide
+tech -- UC_LockVehicle
+
+' Dependencies
+UC_StartRide ..> UC_ProcessPayment : <<include>>
+UC_ReportFault ..> UC_StartRide : <<extend>>
+
+' External Systems Connections
+UC_ProcessPayment -- pay
+UC_StartRide -- iot
+UC_LockVehicle -- iot
+
+@enduml
